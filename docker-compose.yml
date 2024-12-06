@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  app:
+    image: nestjs-starter-local
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["yarn", "start:compose"]
+    x-develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /var/app/src
+    volumes:
+      - ./src:/var/app/src # mount từ môi trường gốc vào trong để nếu các bạn thay đổi code thì bên trong sẽ tự động cập nhật
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13-alpine3.18
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db-local

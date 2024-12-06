@@ -1,0 +1,59 @@
+
+# Config cache
+cache:
+  paths:
+    - node_modules/
+
+variables:
+  MAIN_BRANCH: "main"
+
+.rules_template: &rules_template
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $MAIN_BRANCH'
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH == $MAIN_BRANCH'
+      when: never
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /-draft$/
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $MAIN_BRANCH
+# Run job lint
+lint:
+  stage: test
+  image: node:18
+  tags:
+    - vops-runner
+  script:
+    - yarn
+    - yarn lint
+
+# Run job test
+test:
+  stage: test
+  image: node:18
+  tags:
+    - vops-runner
+  script:
+    - yarn
+    - yarn test
+    - yarn test:e2e
+
+# Run job release
+release:
+  stage: build
+  image: node:18
+  tags:
+    - vops-runner
+  script:
+    - yarn
+    - yarn release
+  <<: *rules_template
+
+
+
+
+
+

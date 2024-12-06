@@ -1,0 +1,7 @@
+{
+  "EMAIL_IS_INVALID":"Email is invalid",
+  "EMAIL_IS_EXISTED":"Email is already in use",
+  "CREATE_USER_SUCCESSFULLY":"User created successfully",
+  "USER_DELETE_SUCCESSFULLY":"User {id} deleted successfully",
+  "USER_NOT_EXIST":"User does not exist"
+}
