@@ -16,7 +16,7 @@ export class ProductsService {
     return this.productsRepo.find({});
   }
 
-  async create(body: InsertProductDto) {
+  async create(body: InsertProductDto, id?: string) {
     const created = await this.productsRepo.save(
       this.productsRepo.create({
         name: body.name,
@@ -25,6 +25,7 @@ export class ProductsService {
         price: body.price,
         status: body.status,
         stock: body.stock,
+        sellerId: id,
       }),
     );
 

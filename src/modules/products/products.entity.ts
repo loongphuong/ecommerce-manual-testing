@@ -25,4 +25,7 @@ export class ProductsEntity extends AbstractEntity {
 
   @Column({ nullable: true })
   status: ProductStatus;
+
+  @Column({ nullable: true })
+  sellerId: string;
 }

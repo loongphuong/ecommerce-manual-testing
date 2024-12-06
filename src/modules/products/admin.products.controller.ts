@@ -14,13 +14,16 @@ import { Response } from 'express';
 
 import { InsertProductDto } from './dto/insert-product.dto';
 import { ProductsService } from './products.service';
+import { RoleType } from '../../constants';
+import { Auth } from '../../decorators/auth.decorator';
 
 @ApiTags('Products')
-@Controller('products')
-export class ProductsController {
+@Controller('admin/products')
+export class AdminProductsController {
   constructor(private readonly productsSvr: ProductsService) {}
 
   @Post('')
+  @Auth([RoleType.ADMIN])
   async create(@Res() res: Response, @Body() body: InsertProductDto) {
     try {
       const result = await this.productsSvr.create(body);
@@ -37,6 +40,7 @@ export class ProductsController {
   }
 
   @Get('')
+  @Auth([RoleType.ADMIN])
   async list(@Res() res: Response) {
     try {
       const result = await this.productsSvr.list();
@@ -52,6 +56,7 @@ export class ProductsController {
   }
 
   @Get('/:id')
+  @Auth([RoleType.ADMIN])
   async getDetailById(@Res() res: Response, @Param('id') id: string) {
     try {
       const result = await this.productsSvr.detail(id);
@@ -67,6 +72,7 @@ export class ProductsController {
   }
 
   @Patch('/:id/status')
+  @Auth([RoleType.ADMIN])
   async changeStatus(@Res() res: Response) {
     try {
     } catch (error) {
@@ -77,6 +83,7 @@ export class ProductsController {
   }
 
   @Put('/:id')
+  @Auth([RoleType.ADMIN])
   async editById(
     @Res() res: Response,
     @Body() body: InsertProductDto,
@@ -99,6 +106,7 @@ export class ProductsController {
   }
 
   @Delete('/:id')
+  @Auth([RoleType.ADMIN])
   async deleteById(@Res() res: Response, @Param('id') id: string) {
     try {
       const result = await this.productsSvr.delete(id);
