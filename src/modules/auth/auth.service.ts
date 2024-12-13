@@ -36,9 +36,9 @@ export class AuthService {
       {
         data: userExisted,
       },
-      this.configService.get('JWT_SECRET'),
+      process.env.JWT_SECRET,
       {
-        expiresIn: this.configService.get('JWT_TOKEN_EXPIRE'),
+        expiresIn: process.env.JWT_TOKEN_EXPIRE,
       },
     );
 
